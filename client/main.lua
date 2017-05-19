@@ -7,9 +7,11 @@ local host, server
 
 local units
 
-function love.load()
+function love.load(args)
   host = enet.host_create()
-  server = host:connect('localhost:1337')
+  local ip = args[2]
+  print("IP:", ip)
+  server = host:connect(('%s:1337'):format(ip))
   units = {}
   local unit = {400,300}
   units[unit] = true
