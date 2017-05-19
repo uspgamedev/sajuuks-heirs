@@ -18,7 +18,7 @@ function love.load(args)
 end
 
 local function update_net()
-  local event = host:service()
+  local event = host:service(10)
   while event do
     if event.type == "receive" then
       print("Got message: ", event.data, event.peer)
