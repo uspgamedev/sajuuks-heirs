@@ -15,6 +15,13 @@ function love.load(args)
   units = {}
   local unit = {400,300}
   units[unit] = true
+  local event = host:service(10000)
+  if event and event.type == "connect" then
+    print(event.peer, "connected.")
+  else
+    print("Failed to connect!")
+    love.event.push 'quit'
+  end
 end
 
 local function update_net()
@@ -26,8 +33,6 @@ local function update_net()
         local x, y = event.data:match("(%d+),(%d+)")
         unit[1], unit[2] = tonumber(x), tonumber(y)
       end
-    elseif event.type == "connect" then
-      print(event.peer, "connected.")
     elseif event.type == "disconnect" then
       print(event.peer, "disconnected.")
       love.event.push 'quit'
@@ -64,4 +69,3 @@ function love.draw ()
     g.circle('fill', unit[1], unit[2], 16, 16)
   end
 end
-
